@@ -4,7 +4,7 @@ const chip8 = @import("chip8.zig");
 const raylib = @import("raylib");
 const nfd = @import("nfd");
 
-const Keys = [16]raylib.KeyboardKey{ raylib.KeyboardKey.KEY_ZERO, raylib.KeyboardKey.KEY_ONE, raylib.KeyboardKey.KEY_TWO, raylib.KeyboardKey.KEY_THREE, raylib.KeyboardKey.KEY_FOUR, raylib.KeyboardKey.KEY_FIVE, raylib.KeyboardKey.KEY_SIX, raylib.KeyboardKey.KEY_SEVEN, raylib.KeyboardKey.KEY_EIGHT, raylib.KeyboardKey.KEY_NINE, raylib.KeyboardKey.KEY_Q, raylib.KeyboardKey.KEY_B, raylib.KeyboardKey.KEY_C, raylib.KeyboardKey.KEY_D, raylib.KeyboardKey.KEY_W, raylib.KeyboardKey.KEY_S };
+const Keys = [16]raylib.KeyboardKey{ raylib.KeyboardKey.KEY_X, raylib.KeyboardKey.KEY_ONE, raylib.KeyboardKey.KEY_TWO, raylib.KeyboardKey.KEY_THREE, raylib.KeyboardKey.KEY_Q, raylib.KeyboardKey.KEY_W, raylib.KeyboardKey.KEY_E, raylib.KeyboardKey.KEY_A, raylib.KeyboardKey.KEY_S, raylib.KeyboardKey.KEY_D, raylib.KeyboardKey.KEY_Z, raylib.KeyboardKey.KEY_C, raylib.KeyboardKey.KEY_FOUR, raylib.KeyboardKey.KEY_R, raylib.KeyboardKey.KEY_F, raylib.KeyboardKey.KEY_V };
 
 pub fn main() void {
     var gpa = std.heap.GeneralPurposeAllocator(.{
@@ -48,6 +48,7 @@ pub fn main() void {
                 raylib.PlaySound(beep);
                 std.time.sleep(500);
             }
+            continue;
         }
         raylib.BeginDrawing();
         defer raylib.EndDrawing();
@@ -62,12 +63,11 @@ pub fn main() void {
                 }
             }
         }
+
         inline for (0..16) |i| {
             if (raylib.IsKeyDown(Keys[i])) {
                 c8.keypad.press(@intCast(u8, i));
             } else if (raylib.IsKeyUp(Keys[i])) {
-                c8.keypad.release(@intCast(u8, i));
-            } else {
                 c8.keypad.release(@intCast(u8, i));
             }
         }
