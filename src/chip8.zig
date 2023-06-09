@@ -67,11 +67,11 @@ const Stack = struct {
 
     pub fn push(self: *Self, val: u16) void {
         self.stack[self.sp] = val;
-        self.sp += 1;
+        self.sp +|= 1;
     }
 
     pub fn pop(self: *Self) u16 {
-        self.sp -= 1;
+        self.sp -|= 1;
         return self.stack[self.sp];
     }
 };
@@ -297,7 +297,7 @@ pub const Interpreter = struct {
                     for (0..n) |j| {
                         const pixel = self.mem.mem[j + self.cpu.i];
                         for (0..8) |i| {
-                            self.cpu.v[0x0F] = self.disp.set((self.cpu.v[x] + @intCast(u8, i)) % 64, (self.cpu.v[y] + @intCast(u8, j)) % 32, @intCast(u1, (pixel >> @intCast(u3, 7 - i)) & 0x01));
+                            self.cpu.v[0x0F] = self.disp.set(@intCast(u8, (self.cpu.v[x] + @intCast(u8, i)) % 64), @intCast(u8, (self.cpu.v[y] + @intCast(u16, j)) % 32), @intCast(u1, (pixel >> @intCast(u3, 7 - i)) & 0x01));
                         }
                     }
                 },
